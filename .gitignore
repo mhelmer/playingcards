@@ -1,0 +1,6 @@
+card.pdf
+*.fls
+*.dvi
+*.aux
+*.log
+*.fdb_latexmk
