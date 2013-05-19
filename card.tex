@@ -1,6 +1,5 @@
-\documentclass{article}
+\documentclass[preview,border=12pt]{standalone}
 \usepackage{parskip}
-\usepackage[margin=15mm]{geometry}
 \usepackage{tikz}
 \usepackage{pifont}
 \usepackage{graphicx}
@@ -9,7 +8,6 @@
 \usepackage[swedish]{babel}
 \begin{document}
 \setlength{\parskip}{0pt}
-
 \pgfmathsetmacro{\cardroundingradius}{4mm}
 \pgfmathsetmacro{\striproundingradius}{3mm}
 \pgfmathsetmacro{\cardwidth}{5}
@@ -29,12 +27,13 @@
 				\item Hönsen
 				\item Udda
 			\end{list}
+			\vspace{1.0cm}
+			\includegraphics[width=\textwidth]{snuttan.png}
 }
 \pgfmathsetmacro{\ruleheight}{0.1}
 \newcommand{\stripfontsize}{\Huge}
 \newcommand{\captionfontsize}{\LARGE}
 \newcommand{\textfontsize}{\large}
-
 \begin{tikzpicture}
     \draw[rounded corners=\cardroundingradius] (0,0) rectangle (\cardwidth,\cardheight);
     \fill[\stripcolor,rounded corners=\striproundingradius] (\strippadding,\strippadding) rectangle (\strippadding+\stripwidth,\cardheight-\strippadding) node[rotate=90,above left,black,font=\stripfontsize] {\striptext};
@@ -46,5 +45,4 @@
         {\textfontsize \bottomcontent}
     };
 \end{tikzpicture}
-
 \end{document}
