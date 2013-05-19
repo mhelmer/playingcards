@@ -6,8 +6,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[swedish]{babel}
+\usepackage{lmodern}
 \begin{document}
-\newcommand{\playcard}[5]
+\newcommand{\playcard}[6]
 {{
 	\setlength{\parskip}{0pt}
 	\pgfmathsetmacro{\cardroundingradius}{4mm}
@@ -16,35 +17,45 @@
 	\pgfmathsetmacro{\cardheight}{8}
 	\newcommand{\stripcolor}{#1}
 	\pgfmathsetmacro{\stripwidth}{1.2}
+	\pgfmathsetmacro{\stripheight}{0.6}
 	\pgfmathsetmacro{\strippadding}{0.1}
-	\newcommand{\striptext}{#2}
+	\newcommand{\striptext}{
+		\ding{#3}
+		\begin{minipage}{4cm}
+		\uppercase{#2}
+		\end{minipage}
+	}
 	\pgfmathsetmacro{\textpadding}{0.3}
-	\newcommand{\topcaption}{#3}
+	\newcommand{\topcaption}{\uppercase{#4}}
 	%\newcommand{\topcontent}{\textit{''Jamande kattväsen'}}
 	%\newcommand{\bottomcaption}{Kompisar}
 	\newcommand{\bottomcontent}{
-		#4 \\[1cm]
-				\includegraphics[width=\textwidth]{pics/#5}
+		#5 \\[0.5cm]
+			\begin{center}
+				\includegraphics[width=0.8\textwidth]{pics/#6}
+			\end{center}
 	}
 	\pgfmathsetmacro{\ruleheight}{0.1}
-	\newcommand{\stripfontsize}{\Huge}
+	\newcommand{\stripfontsize}{\large}
 	\newcommand{\captionfontsize}{\LARGE}
-	\newcommand{\textfontsize}{\large}
+	\newcommand{\textfontsize}{\normalsize}
 	\begin{tikzpicture}
 			\draw[rounded corners=\cardroundingradius] (0,0) rectangle (\cardwidth,\cardheight);
 			\fill[\stripcolor,rounded corners=\striproundingradius]
-				(\strippadding,\strippadding)
-				rectangle (\strippadding+\stripwidth,\cardheight-\strippadding)
-				node[rotate=90,above left,black,font=\stripfontsize,minimum height=1.1cm] {\striptext};
-			\node[text width=(\cardwidth-\strippadding-\stripwidth-2*\textpadding)*1cm,below right,inner sep=0] at (\strippadding+\stripwidth+\textpadding,\cardheight-\textpadding) 
+				(\strippadding,\cardheight-\strippadding)
+				rectangle (\cardwidth-\strippadding, \cardheight-\strippadding-\stripheight)
+				node[below right, text width=(\cardwidth-2*\strippadding)*1cm,black,font=\stripfontsize]
+				at (\strippadding,\cardheight-\strippadding) {\striptext};
+			\node[text width=(\cardwidth-2*\textpadding)*1cm,align=center,below right,inner sep=0]
+			     at (\textpadding,\cardheight-\stripheight-\strippadding-\textpadding) 
 			{   {\captionfontsize \topcaption}\\ 
 				%{\textfontsize \topcontent}\\
-				\tikz{\fill (0,0) rectangle (\cardwidth-\strippadding-\stripwidth-2*\textpadding,\ruleheight);}\\[0.3em]
+				\tikz{\fill (0,0) rectangle (\cardwidth-\strippadding-2*\textpadding,\ruleheight);}\\[0.3em]
 				%{\captionfontsize \bottomcaption}\\ 
 				{\textfontsize \bottomcontent}
 			};
 		\end{tikzpicture}
 	}}
-	\playcard{cyan}{FEM FYRFOTA \rotatebox[origin=c]{-90}{\ding{49}}}
-	         {SNUTTAN}{Alfred \\ Bina \\ Hönsen \\ Udda}{snuttan.png}
+	\playcard{cyan}{FEM FYRFOTA}{49}
+		 {SNUTTAN}{Alfred \\ Bina \\ Hönsen \\ Udda}{snuttan.png}
 \end{document}
