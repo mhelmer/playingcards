@@ -1,16 +1,17 @@
-\documentclass[preview,border=4mm]{standalone}
+\documentclass[preview,border=4mm,multi=true]{standalone}
 \usepackage{parskip}
 \usepackage{tikz}
 \usepackage{pifont}
 \usepackage{graphicx}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage[swedish]{babel}
 \usepackage{lmodern}
-\begin{document}
+\standaloneenv{tikzpicture}
+
+
 \newcommand{\playcard}[6]
 {{
 	\setlength{\parskip}{0pt}
+	\setlength{\parindent}{0pt}
 	\pgfmathsetmacro{\cardroundingradius}{4mm}
 	\pgfmathsetmacro{\striproundingradius}{3mm}
 	\pgfmathsetmacro{\cardwidth}{5}
@@ -19,8 +20,9 @@
 	\pgfmathsetmacro{\stripwidth}{1.2}
 	\pgfmathsetmacro{\stripheight}{0.6}
 	\pgfmathsetmacro{\strippadding}{0.1}
+	\newcommand{\icon}{\ding{#3}}
 	\newcommand{\striptext}{
-		\ding{#3}
+		\icon
 		\begin{minipage}{4cm}
 		\uppercase{#2}
 		\end{minipage}
@@ -31,6 +33,8 @@
 	%\newcommand{\bottomcaption}{Kompisar}
 	\newcommand{\bottomcontent}{
 		#5 \\[0.5cm]
+	}
+	\newcommand{\cardpicture}{
 			\begin{center}
 				\includegraphics[width=0.8\textwidth]{pics/#6}
 			\end{center}
@@ -56,6 +60,7 @@
 			};
 		\end{tikzpicture}
 	}}
+\begin{document}
 	\playcard{cyan}{FEM FYRFOTA}{49}
 		 {SNUTTAN}{Alfred \\ Bina \\ Hönsen \\ Udda}{snuttan.png}
 \end{document}
