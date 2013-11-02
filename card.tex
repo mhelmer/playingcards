@@ -10,6 +10,7 @@
 \usepackage{inlinedef}
 \standaloneenv{tikzpicture}
 
+\usepackage{hyphenat}
 \newcommand{\playcard}[6]
 {{
 	\setlength{\parskip}{0pt}
@@ -30,7 +31,7 @@
 		\end{minipage}
 	}
 	\pgfmathsetmacro{\textpadding}{0.3}
-	\newcommand{\topcaption}{\uppercase{#4}}
+	\newcommand{\topcaption}{\uppercase{\nohyphens{#4}}}
 	%\newcommand{\topcontent}{\textit{''Jamande kattväsen'}}
 	%\newcommand{\bottomcaption}{Kompisar}
 	\newcommand{\bottomcontent}{
@@ -43,8 +44,8 @@
 	}
 	\pgfmathsetmacro{\ruleheight}{0.1}
 	\newcommand{\stripfontsize}{\large}
-	\newcommand{\captionfontsize}{\LARGE}
-	\newcommand{\textfontsize}{\normalsize}
+	\newcommand{\captionfontsize}{\normalsize}
+	\newcommand{\textfontsize}{\small}
 	\begin{tikzpicture}
 		\draw[rounded corners=\cardroundingradius] (0,0) rectangle (\cardwidth,\cardheight);
 		\fill[\stripcolor,rounded corners=\striproundingradius]
@@ -54,7 +55,7 @@
 			at (\strippadding,\cardheight-\strippadding) {\striptext};
 		\node[text width=(\cardwidth-2*\textpadding)*1cm,align=center,below right,inner sep=0]
 			 at (\textpadding,\cardheight-\stripheight-\strippadding-\textpadding)
-		{   {\captionfontsize \topcaption}\\ 
+			{{\captionfontsize \topcaption}\\ 
 			%{\textfontsize \topcontent}\\
 			\tikz{\fill (0,0) rectangle (\cardwidth-\strippadding-2*\textpadding,\ruleheight);}\\[0.3em]
 			%{\captionfontsize \bottomcaption}\\ 
@@ -69,13 +70,11 @@
 \usepackage{cardfamily}
 
 \begin{document}
-\createfamily{TESTFAM}
+\createfamily{Family}{magenta,80,}
  {
-  {Suggan,dummy.png},
-  {Hundkojan,dummy.png},
-  {Lyxbil,dummy.png}
+  {Member1,dummy.png},
+  {Member2,dummy.png},
+  {Member3,dummy.png},
  }
-
-\playcardfamily{TESTFAM}
-
+\playcardfamily{Family}
 \end{document}
