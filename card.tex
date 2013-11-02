@@ -5,8 +5,46 @@
 \usepackage{graphicx}
 \usepackage[swedish]{babel}
 \usepackage{lmodern}
+\usepackage{pgf,pgffor}
+\usepackage{ifthen}
+\usepackage{inlinedef}
 \standaloneenv{tikzpicture}
 
+
+\usepackage{xparse}
+\ExplSyntaxOn
+\NewDocumentCommand{\createlist}{mm}
+ {
+  \seq_clear_new:c { g_data_#1_seq }
+  \seq_gset_from_clist:cn { g_data_#1_seq } { #2 }
+ }
+\NewDocumentCommand{\addtolist}{mm}
+ {
+  \seq_gput_right:cn { g_data_#1_seq } { #2 }
+ }
+\NewDocumentCommand{\removefromlist}{mm}
+ {
+  \seq_gremove_all:cx { g_data_#1_seq } { #2 }
+ }
+\NewDocumentCommand{\purgelist}{m}
+ {
+  \seq_gremove_duplicates:c { g_data_#1_seq }
+ }
+\NewDocumentCommand{\printlist}{m}
+ {
+  \seq_use:cnnn { g_data_#1_seq } { ~\\ } { ~\\ } { ~\\ }
+ }
+\cs_generate_variant:Nn \seq_use:Nnnn { c }
+\cs_generate_variant:Nn \seq_gremove_all:cn {cx}
+\ExplSyntaxOff
+
+%%% working with a specific list without needing two args
+\newcommand{\addcity}[1]{\addtolist{city}{#1}}
+\newcommand{\removecity}[1]{\removefromlist{city}{#1}}
+\newcommand{\printcity}{\printlist{city}}
+
+
+\def\ShowListElement#1{\mathematics{\getvalue{#1}}\space}
 
 \newcommand{\playcard}[6]
 {{
@@ -44,23 +82,37 @@
 	\newcommand{\captionfontsize}{\LARGE}
 	\newcommand{\textfontsize}{\normalsize}
 	\begin{tikzpicture}
-			\draw[rounded corners=\cardroundingradius] (0,0) rectangle (\cardwidth,\cardheight);
-			\fill[\stripcolor,rounded corners=\striproundingradius]
-				(\strippadding,\cardheight-\strippadding)
-				rectangle (\cardwidth-\strippadding, \cardheight-\strippadding-\stripheight)
-				node[below right, text width=(\cardwidth-2*\strippadding)*1cm,black,font=\stripfontsize]
-				at (\strippadding,\cardheight-\strippadding) {\striptext};
-			\node[text width=(\cardwidth-2*\textpadding)*1cm,align=center,below right,inner sep=0]
-			     at (\textpadding,\cardheight-\stripheight-\strippadding-\textpadding) 
-			{   {\captionfontsize \topcaption}\\ 
-				%{\textfontsize \topcontent}\\
-				\tikz{\fill (0,0) rectangle (\cardwidth-\strippadding-2*\textpadding,\ruleheight);}\\[0.3em]
-				%{\captionfontsize \bottomcaption}\\ 
-				{\textfontsize \bottomcontent}
-			};
-		\end{tikzpicture}
-	}}
+		\draw[rounded corners=\cardroundingradius] (0,0) rectangle (\cardwidth,\cardheight);
+		\fill[\stripcolor,rounded corners=\striproundingradius]
+			(\strippadding,\cardheight-\strippadding)
+			rectangle (\cardwidth-\strippadding, \cardheight-\strippadding-\stripheight)
+			node[below right, text width=(\cardwidth-2*\strippadding)*1cm,black,font=\stripfontsize]
+			at (\strippadding,\cardheight-\strippadding) {\striptext};
+		\node[text width=(\cardwidth-2*\textpadding)*1cm,align=center,below right,inner sep=0]
+			 at (\textpadding,\cardheight-\stripheight-\strippadding-\textpadding)
+		{   {\captionfontsize \topcaption}\\ 
+			%{\textfontsize \topcontent}\\
+			\tikz{\fill (0,0) rectangle (\cardwidth-\strippadding-2*\textpadding,\ruleheight);}\\[0.3em]
+			%{\captionfontsize \bottomcaption}\\ 
+			{\textfontsize \bottomcontent}
+		};
+		\node[text width=(\cardwidth-2*\textpadding)*1cm,align=center,above right,inner sep=0]
+			 at (\textpadding,\textpadding) 
+		{\cardpicture};
+	\end{tikzpicture}
+}}
+	\newcommand{\playcardfamily}[5]{
+		{
+			\foreach \thiscard in {#4}{
+				\createlist{relatives}{#4}
+				\createlist{thiscard}{\thiscard}
+				\removefromlist{relatives}{\thiscard}
+				%\foreach \relative [count=\ni] in {relatives}{\relative}
+				\playcard{#1}{#2}{#3}{\thiscard}{\printlist{relatives}}
+				{#5}
+			}
+		}
+	}
 \begin{document}
-	\playcard{cyan}{FEM FYRFOTA}{49}
-		 {SNUTTAN}{Alfred \\ Bina \\ Hönsen \\ Udda}{snuttan.png}
+\playcardfamily{cyan}{TESTFAM}{32}{{Suggan,dummy.png},{Hundkojan,dummy.png},{Lyxbil,dummy.png}}{dummy.png}
 \end{document}
