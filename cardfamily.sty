@@ -1,0 +1,63 @@
+\usepackage{xparse}
+
+\ExplSyntaxOn
+
+\NewDocumentCommand{\createfamily}{ m m }
+ {
+  \magnus_createfamily:nn { #1 } { #2 }
+ }
+
+\NewDocumentCommand{\playcardfamily}{ m }
+ {
+  \magnus_playcardfamily:n { #1 }
+ }
+
+\seq_new:N \l_magnus_tempa_seq
+\seq_new:N \l_magnus_tempb_seq
+
+\cs_new_protected:Npn \magnus_createfamily:nn #1 #2
+ {
+  \seq_new:c { g_magnus_family_ \tl_to_str:n { #1 } _seq }
+  \prop_new:c { g_magnus_family_ \tl_to_str:n { #1 } _prop }
+  \clist_map_inline:nn { #2 } { \magnus_populate:nn { #1 } { ##1 } }
+ }
+
+\cs_new_protected:Npn \magnus_populate:nn #1 #2
+ {
+  \seq_set_split:Nnn \l_magnus_tempa_seq { , } { #2 }
+  \seq_gput_right:cx
+   { g_magnus_family_ \tl_to_str:n { #1 } _seq }
+   { \seq_item:Nn \l_magnus_tempa_seq { 1 } }
+  \prop_gput:cxx
+   { g_magnus_family_ \tl_to_str:n { #1 } _prop }
+   { \seq_item:Nn \l_magnus_tempa_seq { 1 } }
+   { \seq_item:Nn \l_magnus_tempa_seq { 2 } }
+ }
+
+\cs_new_protected:Npn \magnus_playcardfamily:n #1
+ {
+  \seq_set_eq:Nc \l_magnus_tempa_seq { g_magnus_family_ \tl_to_str:n { #1 } _seq }
+  \seq_map_inline:cn { g_magnus_family_ \tl_to_str:n { #1 } _seq }
+   {
+    \seq_set_eq:NN \l_magnus_tempb_seq \l_magnus_tempa_seq
+    \seq_remove_all:Nn \l_magnus_tempb_seq { ##1 }
+    \magnus_playcard:nnxx
+     { #1 }
+     { ##1 }
+	 { \seq_use:Nnnn \l_magnus_tempb_seq { \\ } { \\ } { \\ } }
+     { \prop_get:cn { g_magnus_family_ \tl_to_str:n { #1 } _prop } { ##1 } }
+   }
+ }
+
+% This should do something more useful, probably ;-)
+\cs_new_protected:Npn \magnus_playcard:nnnn #1 #2 #3 #4
+ {
+  %\tl_show:n { \#1~is~#1,~\#2~is~#2,~\#3~is~#3,~\#4~is~#4 }
+  \playcard{cyan}{#1}{32}{#2}{#3}{#4}
+ }    
+
+\cs_generate_variant:Nn \prop_gput:Nnn { cxx }
+\cs_generate_variant:Nn \magnus_playcard:nnnn { nnxx }
+\cs_generate_variant:Nn \tl_use:N {n}
+
+\ExplSyntaxOff

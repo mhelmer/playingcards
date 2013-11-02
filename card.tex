@@ -10,42 +10,6 @@
 \usepackage{inlinedef}
 \standaloneenv{tikzpicture}
 
-
-\usepackage{xparse}
-\ExplSyntaxOn
-\NewDocumentCommand{\createlist}{mm}
- {
-  \seq_clear_new:c { g_data_#1_seq }
-  \seq_gset_from_clist:cn { g_data_#1_seq } { #2 }
- }
-\NewDocumentCommand{\addtolist}{mm}
- {
-  \seq_gput_right:cn { g_data_#1_seq } { #2 }
- }
-\NewDocumentCommand{\removefromlist}{mm}
- {
-  \seq_gremove_all:cx { g_data_#1_seq } { #2 }
- }
-\NewDocumentCommand{\purgelist}{m}
- {
-  \seq_gremove_duplicates:c { g_data_#1_seq }
- }
-\NewDocumentCommand{\printlist}{m}
- {
-  \seq_use:cnnn { g_data_#1_seq } { ~\\ } { ~\\ } { ~\\ }
- }
-\cs_generate_variant:Nn \seq_use:Nnnn { c }
-\cs_generate_variant:Nn \seq_gremove_all:cn {cx}
-\ExplSyntaxOff
-
-%%% working with a specific list without needing two args
-\newcommand{\addcity}[1]{\addtolist{city}{#1}}
-\newcommand{\removecity}[1]{\removefromlist{city}{#1}}
-\newcommand{\printcity}{\printlist{city}}
-
-
-\def\ShowListElement#1{\mathematics{\getvalue{#1}}\space}
-
 \newcommand{\playcard}[6]
 {{
 	\setlength{\parskip}{0pt}
@@ -101,18 +65,17 @@
 		{\cardpicture};
 	\end{tikzpicture}
 }}
-	\newcommand{\playcardfamily}[5]{
-		{
-			\foreach \thiscard in {#4}{
-				\createlist{relatives}{#4}
-				\createlist{thiscard}{\thiscard}
-				\removefromlist{relatives}{\thiscard}
-				%\foreach \relative [count=\ni] in {relatives}{\relative}
-				\playcard{#1}{#2}{#3}{\thiscard}{\printlist{relatives}}
-				{#5}
-			}
-		}
-	}
+
+\usepackage{cardfamily}
+
 \begin{document}
-\playcardfamily{cyan}{TESTFAM}{32}{{Suggan,dummy.png},{Hundkojan,dummy.png},{Lyxbil,dummy.png}}{dummy.png}
+\createfamily{TESTFAM}
+ {
+  {Suggan,dummy.png},
+  {Hundkojan,dummy.png},
+  {Lyxbil,dummy.png}
+ }
+
+\playcardfamily{TESTFAM}
+
 \end{document}
