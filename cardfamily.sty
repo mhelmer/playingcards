@@ -107,7 +107,7 @@
 	%\newcommand{\topcontent}{\textit{''Jamande kattväsen'}}
 	%\newcommand{\bottomcaption}{Kompisar}
 	\newcommand{\bottomcontent}{
-		#5 \\[0.5cm]
+		\nohyphens{#5} \\[0.5cm]
 	}
 	\newcommand{\cardpicture}{
 			\begin{center}
@@ -117,7 +117,7 @@
 	\pgfmathsetmacro{\ruleheight}{0.1}
 	\newcommand{\stripfontsize}{\large}
 	\newcommand{\captionfontsize}{\normalsize}
-	\newcommand{\textfontsize}{\small}
+	\newcommand{\textfontsize}{\scriptsize}
 	\begin{tikzpicture}
 		\draw[rounded corners=\cardroundingradius] (0,0) rectangle (\cardwidth,\cardheight);
 		\fill[\stripcolor,rounded corners=\striproundingradius]
@@ -131,7 +131,7 @@
 			%{\textfontsize \topcontent}\\
 			\tikz{\fill (0,0) rectangle (\cardwidth-\strippadding-2*\textpadding,\ruleheight);}\\[0.3em]
 			%{\captionfontsize \bottomcaption}\\ 
-			{\textfontsize \bottomcontent}
+			{\textfontsize \raggedright \bottomcontent}
 		};
 		\node[text width=(\cardwidth-2*\textpadding)*1cm,align=center,above right,inner sep=0]
 			 at (\textpadding,\textpadding) 
