@@ -1,16 +1,14 @@
 \documentclass[preview,border=4mm,multi=true]{standalone}
-\usepackage{parskip}
-\usepackage{tikz}
-\usepackage{pifont}
-\usepackage{graphicx}
 \usepackage[swedish]{babel}
 \usepackage{lmodern}
-\usepackage{pgf,pgffor}
-\usepackage{ifthen}
-\usepackage{inlinedef}
-\standaloneenv{tikzpicture}
 
+\usepackage{parskip}
+\usepackage{tikz}
+\standaloneenv{tikzpicture}
+\usepackage{pifont}
+\usepackage{graphicx}
 \usepackage{hyphenat}
+
 \newcommand{\playcard}[6]
 {{
 	\setlength{\parskip}{0pt}
@@ -51,7 +49,7 @@
 		\fill[\stripcolor,rounded corners=\striproundingradius]
 			(\strippadding,\cardheight-\strippadding)
 			rectangle (\cardwidth-\strippadding, \cardheight-\strippadding-\stripheight)
-			node[below right, text width=(\cardwidth-2*\strippadding)*1cm,black,font=\stripfontsize]
+			node[below right, text width=(\cardwidth-4*\strippadding)*1cm,black,font=\stripfontsize]
 			at (\strippadding,\cardheight-\strippadding) {\striptext};
 		\node[text width=(\cardwidth-2*\textpadding)*1cm,align=center,below right,inner sep=0]
 			 at (\textpadding,\cardheight-\stripheight-\strippadding-\textpadding)
