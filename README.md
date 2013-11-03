@@ -48,6 +48,17 @@ The syntax for creating a family is:
 * `Member name` is the name of a member in the family.
 * `picture_name` is the name of the corresponding picture in `pic/`.
 
+Dependencies
+============
+The macros uses `expl3` syntax and the following packages:
+* [`xparse`](http://www.ctan.org/pkg/xparse)
+* [`parskip`](http://www.ctan.org/pkg/parskip)
+* [`tikz`](http://www.ctan.org/pkg/pgf)
+* [`pifont`](http://www.ctan.org/pkg/pifont)
+* [`graphicx`](http://ctan.org/pkg/graphicx)
+* [`hyphenat`](http://www.ctan.org/pkg/hyphenat)
+* [`lmodern`](http://www.ctan.org/tex-archive/info/lmodern) (optional)
+* [`xcolor`](http://www.ctan.org/pkg/xcolor) (optional)
 
 References
 ==========
