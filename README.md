@@ -38,3 +38,11 @@ Example
 =======
 The code above would result in 3 cards looking like this:
 ![Example cards](examples/cards.png)
+
+References
+==========
+The following [tex.stackexchange.com](http://tex.stackexchange.com/) posts were very useful:
+
+[Creating playing cards using TikZ, part 2](http://tex.stackexchange.com/questions/48061/creating-playing-cards-using-tikz-part-2)
+
+[Processing a sequence of pairs](http://tex.stackexchange.com/questions/141875/processing-a-sequence-of-pairs)
