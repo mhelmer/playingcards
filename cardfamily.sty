@@ -75,3 +75,66 @@
 \cs_generate_variant:Nn \magnus_playcard:nnnnnn { xxxnxx }
 
 \ExplSyntaxOff
+
+
+\usepackage{parskip}
+\usepackage{tikz}
+\usepackage{pifont}
+\usepackage{graphicx}
+\usepackage{hyphenat}
+
+\newcommand{\playcard}[6]
+{{
+	\setlength{\parskip}{0pt}
+	\setlength{\parindent}{0pt}
+	\pgfmathsetmacro{\cardroundingradius}{4mm}
+	\pgfmathsetmacro{\striproundingradius}{3mm}
+	\pgfmathsetmacro{\cardwidth}{5}
+	\pgfmathsetmacro{\cardheight}{8}
+	\newcommand{\stripcolor}{#1}
+	\pgfmathsetmacro{\stripwidth}{1.2}
+	\pgfmathsetmacro{\stripheight}{0.6}
+	\pgfmathsetmacro{\strippadding}{0.1}
+	\newcommand{\icon}{\ding{#3}}
+	\newcommand{\striptext}{
+		\icon
+		\begin{minipage}{4cm}
+		\uppercase{#2}
+		\end{minipage}
+	}
+	\pgfmathsetmacro{\textpadding}{0.3}
+	\newcommand{\topcaption}{\uppercase{\nohyphens{#4}}}
+	%\newcommand{\topcontent}{\textit{''Jamande kattväsen'}}
+	%\newcommand{\bottomcaption}{Kompisar}
+	\newcommand{\bottomcontent}{
+		#5 \\[0.5cm]
+	}
+	\newcommand{\cardpicture}{
+			\begin{center}
+				\includegraphics[width=0.8\textwidth]{pics/#6}
+			\end{center}
+	}
+	\pgfmathsetmacro{\ruleheight}{0.1}
+	\newcommand{\stripfontsize}{\large}
+	\newcommand{\captionfontsize}{\normalsize}
+	\newcommand{\textfontsize}{\small}
+	\begin{tikzpicture}
+		\draw[rounded corners=\cardroundingradius] (0,0) rectangle (\cardwidth,\cardheight);
+		\fill[\stripcolor,rounded corners=\striproundingradius]
+			(\strippadding,\cardheight-\strippadding)
+			rectangle (\cardwidth-\strippadding, \cardheight-\strippadding-\stripheight)
+			node[below right, text width=(\cardwidth-4*\strippadding)*1cm,black,font=\stripfontsize]
+			at (\strippadding,\cardheight-\strippadding) {\striptext};
+		\node[text width=(\cardwidth-2*\textpadding)*1cm,align=center,below right,inner sep=0]
+			 at (\textpadding,\cardheight-\stripheight-\strippadding-\textpadding)
+			{{\captionfontsize \topcaption}\\ 
+			%{\textfontsize \topcontent}\\
+			\tikz{\fill (0,0) rectangle (\cardwidth-\strippadding-2*\textpadding,\ruleheight);}\\[0.3em]
+			%{\captionfontsize \bottomcaption}\\ 
+			{\textfontsize \bottomcontent}
+		};
+		\node[text width=(\cardwidth-2*\textpadding)*1cm,align=center,above right,inner sep=0]
+			 at (\textpadding,\textpadding) 
+		{\cardpicture};
+	\end{tikzpicture}
+}}
