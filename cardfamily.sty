@@ -7,9 +7,9 @@
   \magnus_createfamily:nnn { #1 } { #2 } { #3 }
  }
 
-\NewDocumentCommand{\playcardfamily}{ m }
+\NewDocumentCommand{\playingcardfamily}{ m }
  {
-  \magnus_playcardfamily:n { #1 }
+  \magnus_playingcardfamily:n { #1 }
  }
 
 \seq_new:N \l_magnus_tempa_seq
@@ -47,14 +47,14 @@
    { \seq_item:Nn \l_magnus_tempa_seq { 2 } }
  }
 
-\cs_new_protected:Npn \magnus_playcardfamily:n #1
+\cs_new_protected:Npn \magnus_playingcardfamily:n #1
  {
   \seq_set_eq:Nc \l_magnus_tempa_seq { g_magnus_family_ \tl_to_str:n { #1 } _seq }
   \seq_map_inline:cn { g_magnus_family_ \tl_to_str:n { #1 } _seq }
    {
     \seq_set_eq:NN \l_magnus_tempb_seq \l_magnus_tempa_seq
     \seq_remove_all:Nn \l_magnus_tempb_seq { ##1 }
-    \magnus_playcard:xxxnxx
+    \magnus_playingcard:xxxnxx
      { \prop_get:cn { g_magnus_family_ \tl_to_str:n { #1 } _prop } { color } }
 	 { \prop_get:cn { g_magnus_family_ \tl_to_str:n { #1 } _prop } { fontsize } #1 }
      { \prop_get:cn { g_magnus_family_ \tl_to_str:n { #1 } _prop } { symbol } }
@@ -65,14 +65,14 @@
  }
 
 % This should do something more useful, probably ;-)
-\cs_new_protected:Npn \magnus_playcard:nnnnnn #1 #2 #3 #4 #5 #6
+\cs_new_protected:Npn \magnus_playingcard:nnnnnn #1 #2 #3 #4 #5 #6
  {
   %\tl_show:n { \#1~is~#1,~\#2~is~#2,~\#3~is~#3,~\#4~is~#4 }
-  \playcard{#1}{#2}{#3}{#4}{#5}{#6}
+  \playingcard{#1}{#2}{#3}{#4}{#5}{#6}
  }    
 
 \cs_generate_variant:Nn \prop_gput:Nnn { cxx }
-\cs_generate_variant:Nn \magnus_playcard:nnnnnn { xxxnxx }
+\cs_generate_variant:Nn \magnus_playingcard:nnnnnn { xxxnxx }
 
 \ExplSyntaxOff
 
@@ -83,7 +83,7 @@
 \usepackage{graphicx}
 \usepackage{hyphenat}
 
-\newcommand{\playcard}[6]
+\newcommand{\playingcard}[6]
 {{
 	\setlength{\parskip}{0pt}
 	\setlength{\parindent}{0pt}
