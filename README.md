@@ -52,6 +52,7 @@ Dependencies
 ============
 The macros uses `expl3` syntax and the following packages:
 * [`xparse`](http://www.ctan.org/pkg/xparse)
+* [ l3kernel`](http://www.ctan.org/pkg/l3kernel)
 * [`parskip`](http://www.ctan.org/pkg/parskip)
 * [`tikz`](http://www.ctan.org/pkg/pgf)
 * [`pifont`](http://www.ctan.org/pkg/pifont)
